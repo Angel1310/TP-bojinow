@@ -1,0 +1,62 @@
+.login{
+  margin-left: 600px;
+
+}
+.reg{
+  margin-right: 700px;
+
+}
+.edit{
+    margin-right: 700px;
+}
+
+
+img{
+  weight: 100px;
+  height: 100px;
+}
+
+body{
+    background-image: url("https://images5.alphacoders.com/674/674047.jpg");
+		background-repeat: no-repeat;
+		background-size: 100% ;
+		background-position: 100% 5%;
+}
+
+#register{
+  background-image: url("http://www.riddick-movie.com/wp-content/gallery/Riddick-Wallpaper/404707.jpg");
+}
+
+#add_movie{
+  background-image: url("https://thewallpaper.co//wp-content/uploads/2016/10/grey-lights-wallpaper-hd-desktop-pictures-hd-wallpapers-cool-images-amazing-artwork-widescreen-1080p-display-digital-photos-1920x1080.jpg");
+}
+
+#edit1{
+  background-image: url("https://images2.alphacoders.com/495/thumb-1920-495902.jpg");
+}
+
+#one_movie{
+  background-image: url("https://cdn.wallpapersafari.com/80/98/YA82Ny.jpg");
+}
+#movies{
+  background-image: url("https://www.look.com.ua/large/201501/114548.jpg");
+}
+
+
+#post{
+  display: block;
+  margin-top: 60px;
+  font-size: 20px;
+  float:inherit;
+  color: white;
+  text-align: center;
+  padding: 24px 16px;
+  text-decoration: none;
+}
+input{
+color: black;
+}
+#button{
+  color: black;
+
+}

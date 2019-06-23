@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Movie</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <link rel="stylesheet" type="text/css" href="../static/nav-bar.css">
+
+</head>
+<body id="edit1">
+
+  <ul id="navbar">
+      <li class="navbar_link"><a class="nav_link" href="/rooms">Edit</a></li>
+      <li class="navbar_link"><a class="nav_link" href="/about">Add movie</a></li>
+      <li class="navbar_link"><a class="nav_link" href="" >Movies</a>
+
+        <li class="navbar_link user_link"><span class="symbol glyphicon glyphicon-user"></span><a class="nav_link user_link" href="/register">Register</a></li>
+        <li class="navbar_link user_link"><span class="symbol glyphicon glyphicon-log-in"></span><a class="nav_link user_link" href="/login">Log in</a></li>
+</ul>
+
+  <div id="post" class="edit">
+
+          <h2>Edit Film</h2>
+      <form action="http://localhost:5000/create_movie" target="" method="POST">
+          Name<br>
+          <br>
+          <input type="text" id="name" name="name" placeholder="Name" required autofocus>
+          <br>Year<br>
+          <br>
+          <input type="text" id="year" name="year" placeholder="Year" required autofocus>
+          <br>
+          <br>Director<br>
+          <br>
+          <input type="text" id="director" name="director" placeholder="Director" required autofocus>
+          <br>
+          <br>Producer<br>
+          <br>
+          <input type="text" id="producer" name="producer" placeholder="Producer" required autofocus>
+          <br>
+
+          <br>
+          <input id="button" type="submit" value="Submit">
+      </form>
+
+  </div>
+
+
+</body>
+</html>

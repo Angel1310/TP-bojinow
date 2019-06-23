@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <link rel="stylesheet" type="text/css" href="../static/nav-bar.css">
+
+</head>
+<body id="register">
+
+  <ul id="navbar">
+      <li class="navbar_link"><a class="nav_link" href="/rooms">Edit</a></li>
+      <li class="navbar_link"><a class="nav_link" href="/about">Add movie</a></li>
+      <li class="navbar_link"><a class="nav_link" href="" >Movies</a>
+
+      <li class="navbar_link user_link"><span class="symbol glyphicon glyphicon-user"></span><a class="nav_link user_link" href="/register">Регистрация</a></li>
+      <li class="navbar_link user_link"><span class="symbol glyphicon glyphicon-log-in"></span><a class="nav_link user_link" href="/login">Влизане</a></li>
+  </ul>
+    <div id="post" class="reg">
+        <img src="https://cdn2.iconfinder.com/data/icons/user-management/512/add-512.png" alt="Register">
+            <h2>Register</h2>
+        <form action="/registered" target="" method="POST">
+            <br>
+            <br>Username<br>
+            <br>
+            <input type="text" id="userName" name="username" placeholder="Username" required autofocus>
+            <br>
+            <br>Email<br>
+            <br>
+            <input type="email" id="inputEmail" name="email" placeholder="Email" required autofocus>
+            <br>
+            <br>Password<br>
+            <br>
+            <input type="password" id="inputPassword" name="password" placeholder="Password" required>
+            <br>
+            <br>Confirm Password<br>
+            <br>
+            <input type="password" id="confirm_password" name="second_pass" placeholder="Confirm Password" required>
+            <br><br>
+            <input id="button" type="submit" value="Register">
+        </form>
+    </div>
+
+</body>
+</html>
