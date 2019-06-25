@@ -2,28 +2,29 @@ from flask import Flask, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask_login import UserMixin
 import os
+
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'crud.sqlite')
+app.config['SECRET_KEY'] = 'bf6423960e622d5907915c5292cab550'
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 bc = Bcrypt(app)
 lm = LoginManager(app)
-lm.login_view = 'login'
-'''
-class User(db.Model):
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(120), unique=True)
 
-    def __int__(self, username, password):
+    def __init__(self, username, password):
         self.username = username
         self.password = password
-'''
+
 class Film(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String, nullable=True, unique=True)
@@ -36,38 +37,80 @@ class Film(db.Model):
 class FilmSchema(ma.Schema):
     class Meta:
         fields = ('id', 'title', 'year')
-''''
+
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('username', 'password')
-'''
+        fields = ('id', 'username', 'password')
+
 film_schema = FilmSchema(strict=True)
 films_schema = FilmSchema(many=True, strict=True)
-'''
-@app.route("/")
-def home():
-    return '<button><a action="POST" href="/film">POST</a></button>'
+
+user_schema = UserSchema(strict=True)
+users_schema = UserSchema(many=True, strict=True)
+
+@lm.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route("/register", methods=['POST'])
-def register(username, password):
+def register():
+    username = request.json['username']
+    password = request.json['password']
+    if username is None or password is None:
+        return abort(400)    
+    
+    user = User.query.filter_by(username=username).first()
+    if user is not None:
+        return abort(400)
+    
 
-    if request.methods == POST:
-        new_user = User(username, password)
+    hashed_pass = bc.generate_password_hash(password).decode('utf-8')
+    new_user = User(username, hashed_pass)
 
-        db.session.add(new_user)
-        db.session.commit()
+    db.session.add(new_user)
+    db.session.commit()
 
-    return reg
+    login_user(new_user)
+    return user_schema.jsonify(new_user), 201
 
-@app.route("/login", methods=['GET'])
-def login(username, password):
-    user = User.query.get(username)
+@app.route("/users", methods=['GET'])
+def all_users():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
+    return jsonify(result.data), 200
 
-    if user.password == password:
-        return True
 
-    return False
-'''
+@app.route("/login", methods=['POST'])
+def login():
+    username = request.json['username']
+    password = request.json['password']
+    if username is None or password is None:
+        return abort(400)
+
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        return abort(404)
+
+    if not bc.check_password_hash(user.password, password):
+        return abort(401)
+
+    login_user(user)
+    return user_schema.jsonify(user), 200
+
+@app.route("/logout", methods=['GET'])
+def logout():
+    if not current_user:
+        return abort(401)
+
+    logout_user()
+    return user_schema.jsonify(current_user), 200
+
+@app.route("/user", methods=['GET'])
+def cur_user():
+    if not current_user:
+        return abort(401)
+
+    return user_schema.jsonify(current_user), 200
 
 @app.route("/film", methods=['POST'])
 def add_film():
